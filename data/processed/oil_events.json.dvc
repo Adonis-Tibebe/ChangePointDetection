@@ -1,0 +1,5 @@
+outs:
+- md5: 0a15d177d0b34378a6df9245fb3afbd5
+  size: 7822
+  hash: md5
+  path: oil_events.json
