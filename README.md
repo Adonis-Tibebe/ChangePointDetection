@@ -1,2 +1,13 @@
-# ChangePointDetection
-change point detection for brent oil prices using statistical modeling of time series data
+# Your Project Name
+
+Add your project description here.
+
+## Installation
+
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+
+Add usage instructions here.
