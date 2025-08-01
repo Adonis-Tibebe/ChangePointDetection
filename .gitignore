@@ -158,8 +158,8 @@ data/processed/*
 !data/processed/.gitkeep
 
 # dvc (DVC)
-data/**/*.dvc
-data/*.dvc
+!data/**/*.dvc
+!data/*.dvc
 
 # Logs
 logs/
