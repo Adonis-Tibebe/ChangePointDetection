@@ -1,0 +1,5 @@
+outs:
+- md5: e893e0dfe3a9600e736f750029a1cf37
+  size: 5209
+  hash: md5
+  path: oil_events.csv
