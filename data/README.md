@@ -10,7 +10,13 @@ data/
 │   └── BrentOilPrices_raw.csv  # Daily Brent oil prices (1987-2022)
 └── processed/              # Processed and feature-engineered data
     ├── oil_events.csv      # Event metadata in CSV format
-    └── oil_events.json     # Event metadata in JSON format
+    ├── oil_events.json     # Event metadata in JSON format
+    ├── BrentOilPrices_transformed.csv  # Transformed price data with features
+    └── change_point_detection_results/ # Analysis results
+        ├── change_point_results.csv     # Detected change points
+        ├── segment_statistics.csv       # Statistical analysis of segments
+        ├── change_impact_analysis.csv   # Impact analysis between segments
+        └── event_matching_results.csv   # Event-change point matching
 ```
 
 ## Data Sources
@@ -24,6 +30,19 @@ data/
 - `Price`: Brent oil price in USD per barrel
 
 **Purpose**: Primary time series for analyzing price trends and detecting structural shifts caused by major political, economic, and geopolitical events.
+
+### Transformed Price Data (`processed/BrentOilPrices_transformed.csv`)
+
+**Content**: Enhanced price data with engineered features  
+**Records**: 8,981 observations (after transformation)  
+**Fields**:
+- `Date`: Date in datetime format
+- `Price`: Original Brent oil price
+- `Log_Return`: Log returns (log(Price_t / Price_{t-1}))
+- `Rolling_Mean`: 30-day rolling mean of prices
+- `Rolling_Std_Log`: 30-day rolling standard deviation of log returns
+
+**Purpose**: Preprocessed data ready for change point detection and statistical analysis.
 
 ### Event Data (`processed/oil_events.csv` and `processed/oil_events.json`)
 
@@ -53,6 +72,15 @@ data/
 - `source_links`: Reference sources for validation
 - `notes`: Additional context and validation notes
 
+### Analysis Results (`processed/change_point_detection_results/`)
+
+**Content**: Output files from change point detection analysis  
+**Files**:
+- `change_point_results.csv`: 23 detected change points with dates and indices
+- `segment_statistics.csv`: Statistical summary of 24 price segments
+- `change_impact_analysis.csv`: Price and volatility changes between segments
+- `event_matching_results.csv`: Matching between change points and historical events
+
 ## Data Quality Assessment
 
 ### Brent Price Data
@@ -65,24 +93,37 @@ data/
 - **Cross-Validation**: Multiple LLM validation (ChatGPT, Deep Seek) with insights captured in notes
 - **Limitations**: Start dates and durations are estimates; some events may overlap
 
+### Transformed Data
+- **Feature Engineering**: Log returns, rolling statistics, and volatility measures
+- **Data Cleaning**: Handled missing values and date parsing issues
+- **Stationarity**: Log returns confirmed stationary through ADF/KPSS tests
+
 ## Data Preprocessing Workflow
 
 1. **Missing Data Handling**: Interpolate short gaps, flag longer gaps
-2. **Aggregation**: Create weekly and monthly aggregates for different analysis granularities
-3. **Transformations**: Compute log differences (returns) for stationarity
-4. **Feature Engineering**: Add event flags and encode event types for modeling
-5. **Event Annotation**: Match events to time series for post-modeling analysis
+2. **Date Parsing**: Convert string dates to datetime objects, handle non-standard separators
+3. **Feature Engineering**: Compute log returns, rolling means, and volatility measures
+4. **Data Validation**: Stationarity tests and distribution analysis
+5. **Export**: Save transformed data for modeling
 
 ## Usage in Analysis
 
 - **Exploratory Analysis**: Visualize price trends and identify volatility clusters
-- **Change Point Detection**: Use as input for Bayesian and frequentist CPD models
+- **Change Point Detection**: Use as input for ruptures-based CPD models
 - **Event Impact Quantification**: Measure price shifts and duration effects
 - **Pattern Recognition**: Identify recurring themes and impact profiles
 
-## Future Enhancements
+## Current Status
 
-- Add empirical effect size calculations (price/volatility shift magnitudes)
-- Refine duration windows to match credible intervals
-- Encode causal details and generate confidence scores
-- Create interactive visualizations for dashboard presentation
+✅ **Completed**:
+- Raw data ingestion and validation
+- Event data collection and structuring
+- Data transformation and feature engineering
+- Change point detection analysis
+- Results export and documentation
+
+📊 **Analysis Results**:
+- 23 change points detected using penalty value 30
+- 6 strong event matches (≤30 days) identified
+- Average segment duration: 537 days
+- Time period analyzed: 12,919 days (1987-2022)
