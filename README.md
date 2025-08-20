@@ -4,31 +4,52 @@
 
 The main goal of this analysis is to study how important events affect Brent oil prices. This will focus on finding out how changes in oil prices are linked to big events like political decisions, conflicts in oil-producing regions, global economic sanctions, and changes in Organization of the Petroleum Exporting Countries (OPEC) policies. The aim is to provide clear insights that can help investors, analysts, and policymakers understand and react to these price changes better.
 
-### Situational Overview
+## Project Overview
 
-You are a data scientist at Birhan Energies, a leading consultancy firm specialising in providing data-driven insights and strategic advice to stakeholders in the energy sector. With a mission to help clients navigate the complexities of the global energy market, Birhan Energies focuses on delivering actionable intelligence that supports decision-making processes for investors, policymakers, and energy companies.
+This project implements a comprehensive change point detection analysis for Brent crude oil prices from 1987-2022, identifying structural breaks in price patterns and correlating them with major geopolitical and economic events. The analysis uses both Bayesian and frequentist approaches to detect regime changes and quantify their impact on oil markets.
 
-You are tasked with analyzing how big political and economic events affect Brent oil prices. Understand how political decisions, conflicts in oil-producing areas, international sanctions, and OPEC policy changes affect the market.
+## Current Implementation Status
 
-The oil market is very unstable. This makes it hard for investors to make good decisions, manage risks, and maximize returns. Policymakers need detailed analysis to create strategies for economic stability and energy security. Energy companies need accurate price forecasts to plan operations, control costs, and secure supply chains.
+### ✅ Completed Components
 
-As a data scientist at Birhan Energies, you are tasked with:
+1. **Data Pipeline**
+   - Raw Brent oil price data ingestion (1987-2022, 9,013 daily observations)
+   - Event data collection and structuring (12 major geopolitical events)
+   - Data transformation and feature engineering
+   - Comprehensive data quality assessment
 
-- Finding key events that have significantly impacted Brent oil prices over the past decade.
-- Measuring how much these events affect price changes.
-- Providing clear, data-driven insights to guide investment strategies, policy development, and operational planning.
+2. **Exploratory Data Analysis**
+   - Time series visualization with event annotations
+   - Distributional analysis (fat tails, skewness)
+   - Stationarity testing (ADF, KPSS)
+   - Rolling statistics computation (30-day mean and volatility)
 
-## Data Analysis Workflow Overview
+3. **Change Point Detection**
+   - PyMC-based Bayesian models (single change point)
+   - Ruptures library implementation (multiple change points)
+   - Penalty selection using elbow method
+   - 23 change points detected using penalty value 30
 
-This project follows a comprehensive data analysis workflow:
+4. **Impact Analysis**
+   - Segment statistics calculation (24 price segments)
+   - Price and volatility change quantification
+   - Event-change point matching algorithm
+   - Strong match identification (≤30 days proximity)
 
-1. **Business Understanding** - Define objectives, stakeholders, and success criteria
-2. **Data Acquisition** - Collect Brent price time series and event data
-3. **Exploratory Data Analysis** - Visualize and profile the data
-4. **Data Preprocessing** - Handle missing data, create features, and prepare for modeling
-5. **Modeling** - Implement Bayesian change point detection and alternative methods
-6. **Post-Model Analysis** - Interpret results and quantify impacts
-7. **Communication & Deployment** - Create interactive dashboard and reports
+5. **Results Export**
+   - Comprehensive CSV outputs for further analysis
+   - Change point detection results
+   - Segment statistics and impact analysis
+   - Event matching results
+
+### 📊 Key Results
+
+- **Change Points Detected**: 23 structural breaks over 35 years
+- **Strong Event Matches**: 6 events with high confidence (≤30 days)
+- **Average Segment Duration**: 537 days
+- **Time Period Analyzed**: 12,919 days (1987-2022)
+- **Most Impactful Events**: Russia-Saudi price war & COVID crash
+- **Detection Method**: Ruptures PELT algorithm with normal cost function
 
 ## Project Structure
 
@@ -36,54 +57,103 @@ This project follows a comprehensive data analysis workflow:
 ChangePointDetection/
 ├── data/
 │   ├── raw/                    # Raw Brent oil price data (1987-2022)
-│   └── processed/              # Processed event data and features
+│   └── processed/              # Processed data and analysis results
+│       ├── oil_events.csv      # Event metadata
+│       ├── BrentOilPrices_transformed.csv  # Transformed price data
+│       └── change_point_detection_results/ # Analysis outputs
 ├── notebooks/                  # Jupyter notebooks for analysis
+│   ├── Data_ingestion.ipynb   # Event data structuring
+│   ├── EDA_and_Transformation.ipynb  # Exploratory analysis
+│   └── Change_PointDetection_and_Impact_Analysis.ipynb  # Main analysis
 ├── src/                        # Source code modules
-│   ├── core/                   # Core functionality
-│   ├── models/                 # Change point detection models
-│   ├── services/               # Data services
-│   └── utils/                  # Utility functions
+│   ├── models/                 # Change point detection configuration
+│   └── utils/                  # Utility functions for analysis
 ├── tests/                      # Unit and integration tests
 ├── docs/                       # Documentation
 ├── examples/                   # Example usage
 └── scripts/                    # Utility scripts
 ```
 
-## Current State
+## Data Sources
 
-### Data Available
-- **Brent Oil Prices**: Daily time series from May 20, 1987 to September 30, 2022 (9,013 records)
-- **Event Data**: 12 major geopolitical and economic events with metadata including:
-  - Event titles and descriptions
-  - Start dates and duration estimates
-  - Impact direction (up/down) and influence levels
-  - Source links and validation notes
+### Brent Oil Prices
+- **Coverage**: Daily prices from May 20, 1987 to September 30, 2022
+- **Records**: 9,013 daily observations
+- **Source**: Historical Brent crude oil price data
+- **Format**: CSV with Date and Price columns
 
-### Key Events Included
-- OPEC quota breakdowns and production decisions
-- Major conflicts (Iraq-Kuwait, Libya civil war, Saudi drone attacks)
-- Economic shocks (Asian financial crisis, Global Financial Crisis, COVID-19)
-- International sanctions (Iran oil export sanctions)
-- Supply shocks (US shale surge, OPEC+ production cuts)
+### Event Data
+- **Events**: 12 major geopolitical and economic events
+- **Categories**: OPEC decisions, conflicts, economic shocks, sanctions, supply shocks
+- **Metadata**: Start dates, duration estimates, impact direction, influence levels
+- **Validation**: Cross-referenced with multiple reliable sources
+
+## Technical Implementation
+
+### Libraries and Dependencies
+- **Data Manipulation**: pandas, numpy
+- **Visualization**: matplotlib, seaborn
+- **Statistical Analysis**: scipy, statsmodels
+- **Bayesian Modeling**: pymc, arviz
+- **Change Point Detection**: ruptures
+- **Data Processing**: json, os, sys
+
+### Change Point Detection Methods
+1. **Bayesian Approach**: PyMC models for single change point detection
+2. **Frequentist Approach**: Ruptures PELT algorithm for multiple change points
+3. **Model Selection**: Penalty-based selection using elbow method
+4. **Validation**: Event matching and impact quantification
+
+### Analysis Workflow
+1. **Data Preparation**: Ingestion, cleaning, and transformation
+2. **Exploratory Analysis**: Visualization and statistical testing
+3. **Model Implementation**: Change point detection algorithms
+4. **Results Analysis**: Impact quantification and event correlation
+5. **Output Generation**: Comprehensive results export
+
+## Key Findings
+
+### Model Performance
+- PyMC struggled with multiple change points due to convergence issues
+- Ruptures provided robust and scalable results for multiple regime detection
+- Penalty value 30 offered optimal balance between sensitivity and specificity
+
+### Event Correlation
+- Strong alignment between detected change points and major geopolitical events
+- 6 out of 23 change points strongly correlated with historical events
+- Clear volatility regime shifts during crisis periods (2008, 2020)
+
+### Data Quality
+- High-quality time series with minimal missing values
+- Clear event annotations with validated source information
+- Stationary log returns suitable for statistical modeling
 
 ## Installation
 
 ```bash
+# Clone the repository
+git clone [repository-url]
+cd ChangePointDetection
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
 ## Usage
 
-1. **Data Exploration**: Start with the notebooks in the `notebooks/` directory
-2. **Model Development**: Use the modules in `src/` for change point detection
-3. **Analysis**: Follow the data analysis workflow outlined above
+### Running the Analysis
 
-## Expected Outputs
+1. **Data Ingestion**: Execute `notebooks/Data_ingestion.ipynb` to prepare event data
+2. **Exploratory Analysis**: Run `notebooks/EDA_and_Transformation.ipynb` for data profiling
+3. **Change Point Detection**: Execute `notebooks/Change_PointDetection_and_Impact_Analysis.ipynb` for main analysis
 
-- Change Point Summary Table with dates, confidence intervals, and matched events
-- Annotated time series plots with event markers
-- Interactive dashboard for exploration
-- Final report with key findings and recommendations
+### Output Files
+
+The analysis generates comprehensive results in `data/processed/change_point_detection_results/`:
+- `change_point_results.csv`: Detected change points with dates and indices
+- `segment_statistics.csv`: Statistical summary of price segments
+- `change_impact_analysis.csv`: Impact analysis between segments
+- `event_matching_results.csv`: Event-change point correlation
 
 ## Contributing
 
