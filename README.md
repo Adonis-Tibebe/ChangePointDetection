@@ -42,6 +42,12 @@ This project implements a comprehensive change point detection analysis for Bren
    - Segment statistics and impact analysis
    - Event matching results
 
+6. **Analytical Dashboard**
+   - Interactive web dashboard for data visualization
+   - Flask backend API serving analysis results
+   - React frontend with interactive charts and tables
+   - Real-time data exploration capabilities
+
 ### 📊 Key Results
 
 - **Change Points Detected**: 23 structural breaks over 35 years
@@ -68,10 +74,18 @@ ChangePointDetection/
 ├── src/                        # Source code modules
 │   ├── models/                 # Change point detection configuration
 │   └── utils/                  # Utility functions for analysis
+├── scripts/                    # Analytical dashboard components
+│   ├── backend/                # Flask API server
+│   │   └── app.py             # RESTful API endpoints
+│   └── frontend/              # React web application
+│       ├── src/                # React components
+│       └── package.json       # Frontend dependencies
 ├── tests/                      # Unit and integration tests
 ├── docs/                       # Documentation
 ├── examples/                   # Example usage
-└── scripts/                    # Utility scripts
+├── .github/workflows/          # CI/CD pipeline configuration
+├── Makefile                    # Build and development commands
+└── pyproject.toml             # Project configuration
 ```
 
 ## Data Sources
@@ -97,6 +111,8 @@ ChangePointDetection/
 - **Bayesian Modeling**: pymc, arviz
 - **Change Point Detection**: ruptures
 - **Data Processing**: json, os, sys
+- **Web Framework**: Flask (backend), React (frontend)
+- **Charts**: Recharts for interactive visualizations
 
 ### Change Point Detection Methods
 1. **Bayesian Approach**: PyMC models for single change point detection
@@ -110,6 +126,7 @@ ChangePointDetection/
 3. **Model Implementation**: Change point detection algorithms
 4. **Results Analysis**: Impact quantification and event correlation
 5. **Output Generation**: Comprehensive results export
+6. **Dashboard Deployment**: Web-based interactive exploration
 
 ## Key Findings
 
@@ -135,8 +152,12 @@ ChangePointDetection/
 git clone [repository-url]
 cd ChangePointDetection
 
-# Install dependencies
+# Install Python dependencies
 pip install -r requirements.txt
+
+# Install frontend dependencies
+cd scripts/frontend
+npm install
 ```
 
 ## Usage
@@ -147,6 +168,12 @@ pip install -r requirements.txt
 2. **Exploratory Analysis**: Run `notebooks/EDA_and_Transformation.ipynb` for data profiling
 3. **Change Point Detection**: Execute `notebooks/Change_PointDetection_and_Impact_Analysis.ipynb` for main analysis
 
+### Running the Dashboard
+
+1. **Start Backend**: Navigate to `scripts/backend/` and run `python app.py`
+2. **Start Frontend**: Navigate to `scripts/frontend/` and run `npm start`
+3. **Access Dashboard**: Open browser to `http://localhost:3000`
+
 ### Output Files
 
 The analysis generates comprehensive results in `data/processed/change_point_detection_results/`:
@@ -154,6 +181,43 @@ The analysis generates comprehensive results in `data/processed/change_point_det
 - `segment_statistics.csv`: Statistical summary of price segments
 - `change_impact_analysis.csv`: Impact analysis between segments
 - `event_matching_results.csv`: Event-change point correlation
+
+## Development
+
+### Testing
+```bash
+# Run unit tests
+pytest tests/
+
+# Run with coverage
+pytest --cov=src tests/
+
+# Or use Makefile
+make test
+make test-cov
+```
+
+### Code Quality
+```bash
+# Format code
+black src/ tests/
+
+# Lint code
+flake8 src/ tests/
+
+# Or use Makefile
+make format
+make lint
+```
+
+### Development Setup
+```bash
+# Install development dependencies
+make install-dev
+
+# Clean up generated files
+make clean
+```
 
 ## Contributing
 
