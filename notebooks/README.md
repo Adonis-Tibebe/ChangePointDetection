@@ -14,7 +14,7 @@ This directory contains Jupyter notebooks for the Brent oil price change point d
 - Includes cross-validated event data with source links and impact estimates
 
 **Key Features**:
-- Event data spans from 1987 to 2020
+- Event data spans from 1987 to 2022
 - Covers multiple categories: OPEC decisions, conflicts, economic shocks, sanctions, supply shocks
 - Each event includes start date, duration, impact direction, influence level, and source validation
 - Data is ready for modeling and insight generation
@@ -126,7 +126,6 @@ Each notebook should follow this structure:
 
 ### Output Management
 - Save processed data to `data/processed/`
-- Store visualizations in `docs/figures/`
 - Export results to `docs/reports/`
 
 ## Dependencies

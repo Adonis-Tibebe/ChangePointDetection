@@ -1,0 +1,6 @@
+outs:
+- md5: 31a7dce9111da3c9327594aab4e3d156.dir
+  size: 8076
+  nfiles: 4
+  hash: md5
+  path: change_point_detection_results
